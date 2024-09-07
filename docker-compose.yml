@@ -1,1 +1,33 @@
-# Your Solution
+version: '3'
+services:
+  book_catalog:
+    build: ./book-catalog
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://<username>:<password>@postgres_db:5432/<database>
+    depends_on:
+      - postgres_db
+
+  inventory_management:
+    build: ./inventory-management
+    ports:
+      - "8001:8001"
+    environment:
+      - DATABASE_URL=postgresql://<username>:<password>@postgres_db:5432/<database>
+    depends_on:
+      - postgres_db
+
+  postgres_db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: <username>
+      POSTGRES_PASSWORD: <password>
+      POSTGRES_DB: <database>
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
