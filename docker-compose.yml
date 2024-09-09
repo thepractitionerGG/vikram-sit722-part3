@@ -1,33 +1,15 @@
-version: '3'
+version: '3.8'
 services:
   book_catalog:
-    build: ./book-catalog
+    build: ./book_catalog
     ports:
-      - "8000:8000"
+      - "3001:8000" 
     environment:
-      - DATABASE_URL=postgresql://<username>:<password>@postgres_db:5432/<database>
-    depends_on:
-      - postgres_db
-
+      DATABASE_URL: "postgresql://projectpart3_vodc_user:HOHEGQ79BtvhqILVxKZRgCXfSzkAz7uN@dpg-cre5jolsvqrc73feu3m0-a.singapore-postgres.render.com/projectpart3_vodc"
+ 
   inventory_management:
-    build: ./inventory-management
+    build: ./inventory_management
     ports:
-      - "8001:8001"
+      - "3002:8000" 
     environment:
-      - DATABASE_URL=postgresql://<username>:<password>@postgres_db:5432/<database>
-    depends_on:
-      - postgres_db
-
-  postgres_db:
-    image: postgres:13
-    environment:
-      POSTGRES_USER: <username>
-      POSTGRES_PASSWORD: <password>
-      POSTGRES_DB: <database>
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-volumes:
-  postgres_data:
+      DATABASE_URL: "postgresql://projectpart3_vodc_user:HOHEGQ79BtvhqILVxKZRgCXfSzkAz7uN@dpg-cre5jolsvqrc73feu3m0-a.singapore-postgres.render.com/projectpart3_vodc"

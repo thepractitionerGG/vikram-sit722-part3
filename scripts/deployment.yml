@@ -1,7 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: book-catalog
+  name: book-catalog-deployment
+  labels:
+    app: book-catalog
 spec:
   replicas: 2
   selector:
@@ -14,17 +16,20 @@ spec:
     spec:
       containers:
       - name: book-catalog
-        image: <your_acr_name>.azurecr.io/book_catalog:latest
+        image: task72.azurecr.io/vikram_sit722_part3_book_catalog:latest2
         ports:
         - containerPort: 8000
         env:
         - name: DATABASE_URL
-          value: "postgresql://<username>:<password>@postgres_db:5432/<database>"
+          value: "postgresql://projectpart3_vodc_user:HOHEGQ79BtvhqILVxKZRgCXfSzkAz7uN@dpg-cre5jolsvqrc73feu3m0-a.singapore-postgres.render.com/projectpart3_vodc"
+
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: inventory-management
+  name: inventory-management-deployment
+  labels:
+    app: inventory-management
 spec:
   replicas: 2
   selector:
@@ -37,12 +42,13 @@ spec:
     spec:
       containers:
       - name: inventory-management
-        image: <your_acr_name>.azurecr.io/inventory_management:latest
+        image: task72.azurecr.io/vikram_sit722_part3_inventory_management:latest2
         ports:
-        - containerPort: 8001
+        - containerPort: 8000
         env:
         - name: DATABASE_URL
-          value: "postgresql://<username>:<password>@postgres_db:5432/<database>"
+          value: "postgresql://projectpart3_vodc_user:HOHEGQ79BtvhqILVxKZRgCXfSzkAz7uN@dpg-cre5jolsvqrc73feu3m0-a.singapore-postgres.render.com/projectpart3_vodc"
+
 ---
 apiVersion: v1
 kind: Service
@@ -56,6 +62,7 @@ spec:
       port: 80
       targetPort: 8000
   type: LoadBalancer
+
 ---
 apiVersion: v1
 kind: Service
@@ -67,5 +74,5 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 8001
+      targetPort: 8000
   type: LoadBalancer
